@@ -4,6 +4,10 @@ Rotate your Mac's screen from the menu bar, so you can watch or read while lying
 
 It uses real system rotation (the same thing System Settings does for external monitors), so the trackpad and mouse follow the rotated screen. It also works on a MacBook's built-in display, which System Settings doesn't let you rotate.
 
+## Download
+
+Get `Tilt.dmg` from the [latest release](https://github.com/learningnihongo934-byte/Tilt/releases/latest), open it and drag Tilt to Applications. Tilt isn't notarized, so the first time, right-click it and choose **Open** (or allow it in System Settings → Privacy & Security).
+
 ## Use
 
 Click the Tilt icon in the menu bar and pick a direction, or use the shortcuts. The arrow points where your head is:
