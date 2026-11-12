@@ -1,16 +1,16 @@
 #!/bin/bash
-# Build Tilt.app.  ./build.sh          -> build/Tilt.app
+# Build Tilt.app.  ./build.sh          -> build.noindex/Tilt.app
 #                  ./build.sh install  -> also copy to /Applications and open it
-#                  ./build.sh dmg      -> also make build/Tilt.dmg
+#                  ./build.sh dmg      -> also make build.noindex/Tilt.dmg
 set -euo pipefail
 cd "$(dirname "$0")"
-APP=build/Tilt.app
+APP=build.noindex/Tilt.app  # .noindex keeps Spotlight from listing a second Tilt
 rm -rf "$APP"; mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 
 swiftc -O -target "$(uname -m)-apple-macos13.0" Sources/main.swift -o "$APP/Contents/MacOS/Tilt"
 
-swift tools/make-icon.swift build/Tilt.iconset
-iconutil -c icns build/Tilt.iconset -o "$APP/Contents/Resources/Tilt.icns"
+swift tools/make-icon.swift build.noindex/Tilt.iconset
+iconutil -c icns build.noindex/Tilt.iconset -o "$APP/Contents/Resources/Tilt.icns"
 
 cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
@@ -37,10 +37,11 @@ case "${1:-}" in
   install)
     pkill -x Tilt 2>/dev/null || true
     rm -rf /Applications/Tilt.app && cp -R "$APP" /Applications/
+    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -u "$PWD/$APP" 2>/dev/null || true
     open /Applications/Tilt.app
     echo "Installed to /Applications/Tilt.app" ;;
   dmg)
-    rm -f build/Tilt.dmg
-    hdiutil create -volname Tilt -srcfolder "$APP" -ov -format UDZO build/Tilt.dmg >/dev/null
-    echo "Made build/Tilt.dmg" ;;
+    rm -f build.noindex/Tilt.dmg
+    hdiutil create -volname Tilt -srcfolder "$APP" -ov -format UDZO build.noindex/Tilt.dmg >/dev/null
+    echo "Made build.noindex/Tilt.dmg" ;;
 esac

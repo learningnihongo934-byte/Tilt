@@ -29,9 +29,9 @@ From the command line:
 Needs macOS 13+ and the Xcode command line tools.
 
 ```bash
-./build.sh            # build/Tilt.app
+./build.sh            # build.noindex/Tilt.app
 ./build.sh install    # copy to /Applications and open
-./build.sh dmg        # build/Tilt.dmg
+./build.sh dmg        # build.noindex/Tilt.dmg
 ```
 
 `Sources/main.swift` is the whole app. `tools/make-icon.swift` draws the icon. Rotation goes through Apple's private MonitorPanel framework, so a future macOS update could break it.
